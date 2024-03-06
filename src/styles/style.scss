@@ -1,0 +1,153 @@
+#app {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+@font-face {
+  font-family: 'icons';
+  src: url(../fonts/icons.woff) format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'wordart';
+  src: url(../fonts/AaWeiDuXinDong-NianFengAiNi-2.woff) format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+$imageWidth: 240px;
+$imageHeight: 336px;
+$padding: 20px;
+$cardWidth: $imageWidth + $padding * 2;
+$cardHeight: $imageHeight + $padding * 2;
+
+.wrap {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  perspective: 1200px;
+  background: url(../styles/background.jpg) 0 / cover;
+
+  .photo {
+    width: $cardWidth;
+    height: $cardHeight;
+    position: absolute;
+    z-index: 2;
+    transform-style: preserve-3d;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.01);
+    cursor: pointer;
+    transition: all 0.6s ease-in-out;
+    left: 50%;
+    top: 50%;
+    margin-top: calc($cardHeight / 2 * -1);
+    margin-left: calc($cardWidth / 2 * -1);
+
+    .photo-wrap {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      font-family: 'wordart';
+      transform-style: preserve-3d;
+      transform-origin: 0 0;
+      transition: all 0.6s ease-in-out;
+
+      .side {
+        width: 100%;
+        height: 100%;
+        background-color: #eee;
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: $padding;
+        box-sizing: border-box;
+        backface-visibility: hidden;
+
+        img {
+          width: 100%;
+        }
+
+        .desc {
+          color: #666;
+          font-size: 18px;
+          line-height: 1.5;
+        }
+      }
+
+      .side-front {
+        transform: rotateY(0deg);
+      }
+
+      .side-back {
+        transform: rotateY(180deg);
+      }
+    }
+
+    &.photo-front .photo-wrap {
+      transform: translate(0px, 0px) rotateY(0deg);
+    }
+
+    &.photo-back .photo-wrap {
+      transform: translate($cardWidth, 0px) rotateY(-180deg);
+    }
+
+    &.photo-center {
+      left: 50% !important;
+      top: 50% !important;
+      transform: rotate(0deg) !important;
+      margin-top: calc($cardHeight / 2 * -1);
+      margin-left: calc($cardWidth / 2 * -1);
+      z-index: 99;
+    }
+  }
+
+  .nav {
+    width: 80%;
+    height: 0;
+    position: absolute;
+    top: 50%;
+    margin-top: calc($cardWidth / 2 + 100px);
+    left: 10%;
+    z-index: 100;
+    text-align: center;
+
+    span {
+      display: inline-block;
+      width: 35px;
+      height: 35px;
+      background: rgba(159, 218, 211, 0.8);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.6s ease-in-out;
+      transform: scale(0.4);
+    }
+
+    .i-current {
+      transform: scale(0.7);
+      transition: all 0.6s ease-in-out;
+
+      &::after {
+        content: '\e600';
+        font-family: 'icons';
+        font-size: 80%;
+        display: inline-block;
+        line-height: 35px;
+        text-align: center;
+        color: #fff;
+        vertical-align: 38%;
+        opacity: 1;
+      }
+    }
+
+    .i-front {
+      transform: rotateY(0deg);
+    }
+
+    .i-back {
+      transform: rotateY(180deg);
+    }
+  }
+}
