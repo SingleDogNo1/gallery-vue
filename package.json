@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
-    "preview": "vite preview"
+    "preview": "pnpm build && vite preview"
   },
   "dependencies": {
     "@unocss/reset": "^0.58.5",

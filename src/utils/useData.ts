@@ -1,5 +1,5 @@
 import { computed, ref } from 'vue'
-import { chain } from 'lodash-es'
+import { sortBy } from 'lodash-es'
 
 interface Gallery {
   /** 图片路径 */
@@ -38,22 +38,9 @@ export function useData() {
     你好，世界13。'
   ]
   const imagesMap = import.meta.glob('../gallery/*.png', { eager: true })
-  const imagesList = chain(imagesMap)
-    .map(v => ({ src: (v as Record<string, string>).default }))
-    .sortBy((v) => {
-      return parseFloat(v.src.match(/\d+/g)![0])
-    })
-    .value()
-
-  const galleryData = computed(() => {
-    const data = imagesList.map((item, index) => {
-      return {
-        src: item.src,
-        desc: descList[index]
-      }
-    })
-    return data
-  })
+  const imagesPath = Object.keys(imagesMap).map(k => ((imagesMap[k] as Record<string, string>).default))
+  const imagesList = sortBy(imagesPath, (v) => parseFloat(v.match(/\d+/g)![0]))
+  const galleryData = computed(() => imagesList.map((src, index) => ({ src, desc: descList[index] })))
 
   const wrapRef = ref<HTMLElement>()
   const itemRefs = ref<{ id: number, el: Element }[]>([])
